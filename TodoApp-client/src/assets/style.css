@@ -109,10 +109,14 @@ form.login input {
 .addtodo{
     width: 100%;
     margin: 1rem 0;
+
+}
+
+.addtodo form{
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 input.addtodoInput{

@@ -1,7 +1,7 @@
 <template>
     <ul>
-        <li class="">
-            <p>deneme todo </p>
+        <li v-for="todo in allTodoList" @click="log">
+            <p>{{ todo.todo }} </p>
             <div class="todolist-item-buttons">
                 <div class="todolist-item-button">
                     <img src="https://cdn-icons-png.flaticon.com/512/4476/4476194.png" alt="edit">
@@ -14,5 +14,20 @@
                 </div>
             </div>
         </li>
-    </ul>
+</ul>
 </template>
+
+<script setup>
+import { reactive, watch } from 'vue';
+import { useUserStore } from '../stores/user';
+import { storeToRefs } from 'pinia';
+const store = useUserStore()
+storeToRefs(store)
+
+const allTodoList = store.getNotDoneTodos
+
+
+const log = () => {
+    console.log(allTodoList);
+}
+</script>

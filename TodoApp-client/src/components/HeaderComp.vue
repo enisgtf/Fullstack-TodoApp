@@ -6,19 +6,34 @@
         </div>
         <div class="navbar">
             <RouterLink class="navbar_router-link" to="/">Home</RouterLink>
-            <RouterLink class="navbar_router-link" to="/todos">Todos</RouterLink>
+            <RouterLink class="navbar_router-link" to="/todos" v-if="store.user !== null">Todos</RouterLink>
         </div>
         <div class="buttons">
-            <router-link class="btn blue" to="/login">Login</router-link>
-            <router-link class="btn blue" to="/register">Register</router-link>
-            <!--             <router-link class="btn blue" to="/">Logout</router-link>-->
+            <router-link class="btn blue" to="/login" v-if="store.isLoggedIn === false">Login</router-link>
+            <router-link class="btn blue" to="/register" v-if="store.isLoggedIn === false">Register</router-link>
+            <router-link class="btn blue" to="/" @click="logout" v-if="store.isLoggedIn !== false">Logout</router-link>
         </div>
 
-    </header>
+</header>
 </template>
 
+
 <script setup>
+
 import { RouterLink } from 'vue-router'
+import { useUserStore } from '../stores/user';
+import { storeToRefs } from 'pinia';
+
+const store = useUserStore()
+
+
+
+const logout = () => {
+    store.token = null
+    store.isLoggedIn = false
+    store.userTodos = null
+    store.user = undefined
+}
 
 </script>
 
