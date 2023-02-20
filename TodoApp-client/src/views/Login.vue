@@ -14,13 +14,12 @@
 
 
 <script setup>
-import { RouterLink, useRouter } from "vue-router"
+import { RouterLink } from "vue-router"
 import { reactive } from 'vue'
 import axios from "axios";
-import { useUserStore } from "../stores/user";
+import { useUserStore } from "../stores/store";
 import { storeToRefs } from "pinia";
 
-const router = useRouter()
 const store = useUserStore()
 storeToRefs(store)
 
@@ -37,6 +36,7 @@ const login = async () => {
         if (token) {
             store.token = token
             store.isLoggedIn = true
+            localStorage.setItem('token', token)
         }
     })
 }

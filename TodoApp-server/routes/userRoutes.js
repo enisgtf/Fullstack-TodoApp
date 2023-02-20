@@ -6,11 +6,12 @@ const router = express.Router()
 router.post('/register', authController.register)
 router.post('/login', authController.login)
 router.get("/user", authController.getCurrenUser) 
-router.post("/todo", authController.postUserTodo)
+
+
 router.get("/todo", authController.getUserTodos)
-
-
-
+router.post("/todo", authController.postUserTodo)
+router.delete("/todo", authController.deleteUserTodo)
+router.put("/todo", authController.doneTodo)
 
 /* export */
 module.exports = router

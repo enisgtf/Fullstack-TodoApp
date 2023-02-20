@@ -3,13 +3,13 @@
         <h3>My Planned Todos</h3>
         <div class="addtodo">
             <form @submit.prevent="addUserTodo">
-                <input class="addtodoInput" type="text" placeholder="Add Todo..." v-model="newUserTodo.todo">
+                <input class="addtodoInput" type="text" placeholder="Add Todo..." v-model="todoModel" id="target">
                 <button class="addtodoButton">+</button>
             </form>
         </div>
         <div class="todolist-item">
-            <EmptyTodoComp />
-            <TodoListItem />
+            <EmptyTodoComp v-if="todoCount === 0" />
+            <TodoListItem @todo="getEditValue"/>
 
         </div>
         <div class="hr"></div>
@@ -17,7 +17,6 @@
             <TodoListItemDone />
 
         </div>
-        <DeleteComp v-if="deleteItem" />
     </div>
 </template>
 
@@ -26,36 +25,51 @@
 import TodoListItem from '../components/TodoListItem.vue';
 import TodoListItemDone from '../components/TodoListItemDone.vue';
 import EmptyTodoComp from '../components/EmptyTodoComp.vue';
-import DeleteComp from '../components/DeleteComp.vue';
 import axios from 'axios';
-import { useUserStore } from '../stores/user';
+import { computed, ref } from 'vue';
+import { useUserStore } from '../stores/store';
 
 
 const store = useUserStore()
 
-const deleteItem = false;
 
-console.log(store);
+const todoModel = ref("")
 
 /* new user todo */
-const newUserTodo = {
-    todo: "",
-    userID: store.user?._id || undefined,
-    done: false
-}
+
+
+const todoCount = computed(() => store.userTodos?.length)
 
 const addUserTodo = () => {
-     axios.post("/api/todo", newUserTodo).then((res) => {
+    const todo = todoModel.value
+    const newUserTodo = {
+        todo,
+        userID: store.user?._id || undefined,
+        done: false,
+        _id:  new Date().getTime() 
+    }
+    axios.post("/api/todo", newUserTodo).then((res) => {
         if (res.status === 204) {
             alert("todo can't be empty!")
         } else if (res.status === 201) {
-            alert(res.data.message)
-            store.addTodo(newUserTodo)
+            store.userTodos.push(newUserTodo)
+            todoModel.value = ""
         }
     })
 }
 
 
+const getEditValue = (todo) => {
+    todoModel.value = todo.todo
+    const target = document.getElementById("target");
+    target.focus()
+
+}
+
 </script>
 
-<style></style>
+<style>
+.animations{
+    transition-duration: 1s;
+}
+</style>

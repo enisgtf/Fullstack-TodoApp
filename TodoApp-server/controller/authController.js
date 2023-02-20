@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
         .then(res => {
             res.json('you registered!')
         }).catch(error => {
-            if(error) res.json(['backend error', error])
+            if (error) res.json(['backend error', error])
         })
 }
 
@@ -53,23 +53,65 @@ exports.getCurrenUser = async (req, res) => {
 
 exports.postUserTodo = async (req, res) => {
     const userTodo = req.body
-
     if (userTodo.todo === "" || userTodo.todo.trim().length === 0) {
         res.status(204).json() // 204 = no content
     } else {
         await Todo.create(userTodo)
-            .catch(err => res.json(err))
         res.status(201).json({ message: 'created' })
     }
 }
 
 exports.getUserTodos = async (req, res) => {
     const userID = req.headers.userid
-    if(userID === undefined){
+    if (userID === undefined) {
         res.json(null)
     }
-    const allUserTodos = await Todo.find({userID: userID})
+    const allUserTodos = await Todo.find({ userID: userID })
     res.json(allUserTodos)
 }
 
+exports.deleteUserTodo = async (req, res) => {
+    const id = req.headers.todo_id
+    await Todo.findOneAndDelete({ _id: id }).then(response => {
+        if(response){
+            res.status(200).json({message: "deleted"})
+        } else {
+            res.status(204) // not found
+        }
+    })
+}
+
+exports.doneTodo = (req, resp) => {
+    const todo = req.body
+     Todo.findOne({_id: todo._id}).then(res => {
+        if(res.done === true){
+            Todo.updateOne({_id: todo._id}, {done: false}).then(response => {
+                if(response){
+                    resp.status(200).json({message: "changed"})
+                } else {
+                    resp.status(204) // not found
+                }
+            })
+        } else {
+            Todo.updateOne({_id: todo._id}, {done: true}).then(response => {
+                if(response){
+                    resp.status(200).json({message: "changed"})
+                } else {
+                    resp.status(204) // not found
+                }
+            })
+        }
+    })
+}
+
+/* exports.undoneTodo =  (req, res) => {
+    const todo = req.body
+    Todo.updateOne({_id: todo._id}, {$set: {done: false}}).then(response => {
+        if(response){
+            res.status(200).json({message: "changed"})
+        } else {
+            res.status(204) // not found
+        }
+    })
+} */
 

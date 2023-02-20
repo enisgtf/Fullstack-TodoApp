@@ -12,6 +12,9 @@ const todoSchema = new mongoose.Schema({
     done: {
         type: Boolean,
         default: false
+    },
+    _id: {
+        type: String,
     }
 })
 

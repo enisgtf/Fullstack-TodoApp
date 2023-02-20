@@ -21,7 +21,7 @@
 <script setup>
 
 import { RouterLink } from 'vue-router'
-import { useUserStore } from '../stores/user';
+import { useUserStore } from '../stores/store';
 import { storeToRefs } from 'pinia';
 
 const store = useUserStore()
@@ -31,8 +31,9 @@ const store = useUserStore()
 const logout = () => {
     store.token = null
     store.isLoggedIn = false
-    store.userTodos = null
+    store.userTodos = []
     store.user = undefined
+    localStorage.token = null
 }
 
 </script>
@@ -44,7 +45,6 @@ header {
     align-items: center;
     justify-content: space-between;
     height: 80px;
-    width: 100vw;
     background: var(--clr-white);
     padding: 0 1rem;
     margin-bottom: 2rem;
