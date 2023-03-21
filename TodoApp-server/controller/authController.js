@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     const { email, password } = req.body
-    const user = await await User.findOne({ email })
+    const user = await User.findOne({ email })
     if (user) {
         const isVerified = await bcrypt.compare(password, user.password)
         if (isVerified) {
@@ -104,14 +104,4 @@ exports.doneTodo = (req, resp) => {
     })
 }
 
-/* exports.undoneTodo =  (req, res) => {
-    const todo = req.body
-    Todo.updateOne({_id: todo._id}, {$set: {done: false}}).then(response => {
-        if(response){
-            res.status(200).json({message: "changed"})
-        } else {
-            res.status(204) // not found
-        }
-    })
-} */
 

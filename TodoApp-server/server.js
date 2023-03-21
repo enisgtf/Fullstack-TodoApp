@@ -7,6 +7,12 @@ const mongoose = require('mongoose')
 /* dotenv */
 require('dotenv').config()
 
+/* port */
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`)
+})
+
 /* create express */
 const app = express()
 app.use(cors())
@@ -14,10 +20,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/api', userRouter)
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`)
-})
+
 
 /* mongodb connection */
 mongoose.set('strictQuery', false); /* for warning */
