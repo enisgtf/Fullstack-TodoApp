@@ -15,11 +15,10 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed } from "vue";
-import { RouterLink, useRouter } from "vue-router"
+import { reactive, ref } from "vue";
+import { RouterLink } from "vue-router"
 import axios from "axios";
 
-const router = useRouter()
 
 const newUser = reactive({
     username: '',

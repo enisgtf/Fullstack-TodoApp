@@ -24,16 +24,18 @@ import { RouterLink } from 'vue-router'
 import { useUserStore } from '../stores/store';
 import { storeToRefs } from 'pinia';
 
-const store = useUserStore()
 
+const store = useUserStore()
+const {isLoggedIn, user, todos} = storeToRefs(store)
 
 
 const logout = () => {
-    store.token = null
-    store.isLoggedIn = false
-    store.userTodos = []
-    store.user = undefined
-    localStorage.token = null
+    store.token = ""
+    isLoggedIn.value = false
+    todos.value = []
+    user.value = {}
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
 }
 
 </script>

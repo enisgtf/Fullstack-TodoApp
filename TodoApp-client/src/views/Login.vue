@@ -14,14 +14,15 @@
 
 
 <script setup>
-import { RouterLink } from "vue-router"
+import { RouterLink, useRouter } from "vue-router"
 import { reactive } from 'vue'
 import axios from "axios";
 import { useUserStore } from "../stores/store";
 import { storeToRefs } from "pinia";
 
+const router = useRouter()
 const store = useUserStore()
-storeToRefs(store)
+const {isLoggedIn, todos, user, token } = storeToRefs(store)
 
 const loginUser = reactive({
     email: '',
@@ -31,13 +32,17 @@ const loginUser = reactive({
 
 const login = async () => {
     await axios.post("/api/login", loginUser).then(res => {
+        token.value = res.data.token
+        user.value = res.data.user
+        todos.value = res.data.todos
+        isLoggedIn.value = true
+        axios.defaults.headers.token = res.data.token
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('user', JSON.stringify(res.data.user))
+        router.push('/')
         alert(res.data.message)
-        const token = res.data.token
-        if (token) {
-            store.token = token
-            store.isLoggedIn = true
-            localStorage.setItem('token', token)
-        }
+    }).catch(err => {
+        alert(err.response.data.message)
     })
 }
 

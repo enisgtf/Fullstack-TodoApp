@@ -10,10 +10,8 @@
 
 <script setup>
 import { useUserStore } from '../stores/store.js';
-import { storeToRefs } from 'pinia';
 
 const store = useUserStore()
-storeToRefs(store)
 
 </script>
 
