@@ -14,4 +14,4 @@ app.use(router);
 app.mount("#app");
 
 /* axios config */
-axios.defaults.baseURL = "http://localhost:5001";
+axios.defaults.baseURL = "https://todoapp-backend-api.onrender.com";
