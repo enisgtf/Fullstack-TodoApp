@@ -1,7 +1,6 @@
 <template>
   <HeaderComp></HeaderComp>
   <RouterView></RouterView>
-  <button @click="log">log</button>
 </template>
 
 
@@ -11,9 +10,6 @@ import { RouterView } from 'vue-router';
 import { useUserStore } from './stores/store.js';
 
 
-const log = () => {
-  console.log(store)
-}
 
 const store = useUserStore()
 store.checkLocalStorage()
