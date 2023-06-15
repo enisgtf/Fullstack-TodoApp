@@ -40,7 +40,7 @@ const login = async () => {
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('user', JSON.stringify(res.data.user))
         router.push('/')
-        alert(res.data.message)
+        alert(res.data.message + "Wait one minute and try again.")
     }).catch(err => {
         alert(err.response.data.message)
     })
