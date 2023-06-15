@@ -1,5 +1,5 @@
 # Fullstack-TodoApp
-fullstack app with authentication
+# Fullstack TodoApp with Authentication
 
 You can check my app:
 https://enisgtf-mevnstack-todoapp.netlify.app/
