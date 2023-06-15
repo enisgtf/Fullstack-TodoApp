@@ -36,15 +36,13 @@ const register = () => {
             alert('passwords are not same!')
         } else {
             axios.post("/api/register", newUser).then((res) => {
-                console.log(res)
-                if(res.data[1].keyValue){
+                if (res.data[1].keyValue) {
                     alert('used email or username')
-                } else if(res.data[1].errors){
+                } else if (res.data[1].errors) {
                     alert('this is not an email!')
-                }else {
-                    alert('your account has been created!')
-              }
-            }).catch(err =>console.log(err))
+                }
+                alert('your account has been created!')
+            }).catch(err => console.log(err))
         }
     }
 }
